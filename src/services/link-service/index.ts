@@ -4,7 +4,7 @@ import linkRepository from "@/repositories/link-repository";
 import { notFoundError } from "@/errors";
 
 export async function createLink({ name, userId }: CreateLinkParams): Promise<Link> {
-  validateUniqueNameOrFail(name);
+  await validateUniqueNameOrFail(name);
 
   return linkRepository.create({
     name,
@@ -14,7 +14,6 @@ export async function createLink({ name, userId }: CreateLinkParams): Promise<Li
 
 async function validateUniqueNameOrFail(name: string) {
   const linkWithSameName = await linkRepository.findByName(name);
-
   if (linkWithSameName) {
     throw duplicatedNameError();
   }
@@ -37,5 +36,4 @@ const linkService = {
   allLinks
 };
 
-export * from './errors';
 export default linkService;
