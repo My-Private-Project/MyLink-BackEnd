@@ -35,3 +35,31 @@ export async function linkGet(req: AuthenticatedRequest, res: Response) {
     return res.status(httpStatus.BAD_REQUEST).send(error);
   }
 }
+
+export async function linkPut(req: AuthenticatedRequest, res: Response) {
+  const { id, name } = req.body;
+
+  try {
+    await linkService.updateLink({id, name});
+    return res.sendStatus(httpStatus.OK);
+  } catch (error) {
+    if (error.name === "NotFoundError") {
+      return res.status(httpStatus.NOT_FOUND).send(error.message);
+    }
+    return res.status(httpStatus.BAD_REQUEST).send(error);
+  }
+}
+
+export async function linkDelete(req: AuthenticatedRequest, res: Response) {
+  const { id } = req.body;
+
+  try {
+    await linkService.deleteLink(id);
+    return res.sendStatus(httpStatus.OK);
+  } catch (error) {
+    if (error.name === "NotFoundError") {
+      return res.status(httpStatus.NOT_FOUND).send(error.message);
+    }
+    return res.status(httpStatus.BAD_REQUEST).send(error);
+  }
+}

@@ -31,9 +31,33 @@ export async function allLinks(userId: number): Promise<Link[]> {
   return links;
 };
 
+export async function updateLink({ id, name }: UpdateLinkParams){
+  await validateUniqueNameOrFail(name);
+  
+  const link = await linkRepository.findById(id);
+
+  if (!link) throw notFoundError();
+
+  return await linkRepository.update({id,name});
+};
+
+export type UpdateLinkParams = Pick<Link, 'id' | 'name'>;
+
+export async function deleteLink(linkId: number){
+  const link = await linkRepository.findById(linkId);
+
+  if (!link) throw notFoundError();
+
+  return await linkRepository.remove(linkId);
+};
+
+export type DeleteLinkParams = Pick<Link, 'id'>;
+
 const linkService = {
   createLink,
-  allLinks
+  allLinks,
+  updateLink,
+  deleteLink
 };
 
 export default linkService;

@@ -1,14 +1,16 @@
 import { Router } from 'express';
 
 import { authenticateToken, validateBody } from '@/middlewares';
-import { linkSchema } from '@/schemas/link-schemas';
-import { linkGet, linkPost } from '@/controllers/link-controller';
+import { linkDeleteSchema, linkSchema, linkUpdateSchema } from '@/schemas/link-schemas';
+import { linkDelete, linkGet, linkPost, linkPut } from '@/controllers/link-controller';
 
 const homeRouter = Router();
 
 homeRouter
     .all('/*', authenticateToken)
     .get('/', linkGet)
-    .post('/', validateBody(linkSchema), linkPost);
+    .post('/', validateBody(linkSchema), linkPost)
+    .put('/', validateBody(linkUpdateSchema),linkPut)
+    .delete('/', validateBody(linkDeleteSchema),linkDelete);
 
 export { homeRouter };
