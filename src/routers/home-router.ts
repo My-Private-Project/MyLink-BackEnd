@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { authenticateToken, validateBody } from '@/middlewares';
+import { authenticateToken, validateBody, validateParams } from '@/middlewares';
 import { linkDeleteSchema, linkSchema, linkUpdateSchema } from '@/schemas/link-schemas';
 import { linkDelete, linkGet, linkPost, linkPut } from '@/controllers/link-controller';
 
@@ -11,6 +11,6 @@ homeRouter
     .get('/', linkGet)
     .post('/', validateBody(linkSchema), linkPost)
     .put('/', validateBody(linkUpdateSchema),linkPut)
-    .delete('/', validateBody(linkDeleteSchema),linkDelete);
+    .delete('/:id', validateParams(linkDeleteSchema),linkDelete);
 
 export { homeRouter };

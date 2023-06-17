@@ -51,10 +51,10 @@ export async function linkPut(req: AuthenticatedRequest, res: Response) {
 }
 
 export async function linkDelete(req: AuthenticatedRequest, res: Response) {
-  const { id } = req.body;
+  const { id } = req.params;
 
   try {
-    await linkService.deleteLink(id);
+    await linkService.deleteLink(Number(id));
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     if (error.name === "NotFoundError") {
