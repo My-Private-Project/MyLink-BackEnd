@@ -1,46 +1,24 @@
 import { AuthenticatedRequest } from "@/middlewares";
-import linkService from "@/services/link-service";
+import cardService from "@/services/card-service";
 import { Response } from "express";
 import httpStatus from "http-status";
 
 export async function cardPost(req: AuthenticatedRequest, res: Response) {
-  const { name } = req.body;
-  const { userId } = req;
+  const { name, link, bodyId } = req.body;
 
   try {
-    const link = await linkService.createLink({ name, userId });
-    return res.status(httpStatus.CREATED).json({
-      id: link.id,
-      name: link.name,
-      userId: link.userId,
-    });
+    await cardService.createCard({ name, link, bodyId });
+    return res.sendStatus(httpStatus.CREATED);
   } catch (error) {
-    if (error.name === "DuplicatedNameError") {
-      return res.status(httpStatus.CONFLICT).send(error);
-    }
-    return res.status(httpStatus.BAD_REQUEST).send(error);
-  }
-}
-
-export async function cardGet(req: AuthenticatedRequest, res: Response) {
-  const { userId } = req;
-
-  try {
-    const links = await linkService.allLinks(userId);
-    return res.status(httpStatus.CREATED).send(links);
-  } catch (error) {
-    if (error.name === "NotFoundError") {
-      return res.status(httpStatus.OK).send([]);
-    }
     return res.status(httpStatus.BAD_REQUEST).send(error);
   }
 }
 
 export async function cardPut(req: AuthenticatedRequest, res: Response) {
-  const { id, name } = req.body;
+  const { id, name, link } = req.body;
 
   try {
-    await linkService.updateLink({ id, name });
+    await cardService.updateCard({id, name, link});
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     if (error.name === "NotFoundError") {
@@ -54,7 +32,7 @@ export async function cardDelete(req: AuthenticatedRequest, res: Response) {
   const { id } = req.params;
 
   try {
-    await linkService.deleteLink(Number(id));
+    await cardService.deleteCard(Number(id));
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     if (error.name === "NotFoundError") {

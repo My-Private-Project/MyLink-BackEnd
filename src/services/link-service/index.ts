@@ -2,14 +2,19 @@ import { Link } from "@prisma/client";
 import { duplicatedNameError } from "./errors";
 import linkRepository from "@/repositories/link-repository";
 import { notFoundError } from "@/errors";
+import bodyRepository from "@/repositories/body-repository";
 
 export async function createLink({ name, userId }: CreateLinkParams): Promise<Link> {
   await validateUniqueNameOrFail(name);
 
-  return linkRepository.create({
-    name,
-    userId,
+  const link = await linkRepository.create({ name, userId });
+  await bodyRepository.create({
+    imageProfile: "",
+    cover:"",
+    linkId: link.id
   });
+
+  return link;
 };
 
 async function validateUniqueNameOrFail(name: string) {

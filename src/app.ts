@@ -11,7 +11,8 @@ import { handleApplicationErrors } from '@/middlewares';
 import {
   signUpRouter,
   signInRouter,
-  homeRouter
+  homeRouter,
+  creatorRouter
 } from '@/routers';
 
 const app = express();
@@ -22,6 +23,7 @@ app
   .use('/sign-in', signInRouter)
   .use('/sign-up', signUpRouter)
   .use('/home', homeRouter)
+  .use('/creator', creatorRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {

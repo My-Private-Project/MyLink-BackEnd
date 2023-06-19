@@ -10,8 +10,13 @@ async function find(linkId: number): Promise<Body & {Cards: Cards[]}> {
   });
 }
 
+async function create(data : Prisma.BodyUncheckedCreateInput) {
+  return prisma.body.create({data});
+}
+
 const bodyRepository = {
-  find
+  find,
+  create
 };
 
 export default bodyRepository;

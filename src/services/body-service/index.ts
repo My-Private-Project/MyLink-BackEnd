@@ -5,7 +5,7 @@ import { notFoundError } from "./errors";
 
 export async function findBody(name: string): Promise<Body> {
   const link: Link = await linkRepository.findByName(name);
-
+  console.log(link);
   if (!link) throw notFoundError();
 
   const body: Body & {Cards: Cards[]} = await bodyRepository.find(link.id);
