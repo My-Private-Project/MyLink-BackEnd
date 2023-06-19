@@ -44,8 +44,8 @@ model Body {
   id           Int      @id @default(autoincrement())
   linkId       Int
   Link         Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
-  imageProfile String   @db.VarChar(255)
-  cover        String   @db.VarChar(255)
+  imageProfile String   @db.VarChar(255) @default("")
+  cover        String   @db.VarChar(255) @default("")
   Cards        Cards[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -54,7 +54,7 @@ model Body {
 model Cards {
   id     Int    @id @default(autoincrement())
   bodyId Int
-  icone  String @db.VarChar(255)
+  icone  String @db.VarChar(255) @default("")
   name   String @db.VarChar(255)
   link   String @db.VarChar(255)
   createdAt    DateTime @default(now())
