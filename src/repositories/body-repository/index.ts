@@ -14,9 +14,21 @@ async function create(data : Prisma.BodyUncheckedCreateInput) {
   return prisma.body.create({data});
 }
 
+async function update(id : number, imageProfile : string) {
+  return prisma.body.update({
+    where: {
+      id
+    },
+    data:{
+      imageProfile
+    }
+  })
+}
+
 const bodyRepository = {
   find,
-  create
+  create,
+  update
 };
 
 export default bodyRepository;

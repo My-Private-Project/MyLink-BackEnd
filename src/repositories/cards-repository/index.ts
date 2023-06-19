@@ -22,7 +22,8 @@ async function update(data : UpdateCardParams) {
       id: data.id
     },
     data:{
-      name: data.name
+      name: data.name,
+      link: data.link
     }
   })
 }
